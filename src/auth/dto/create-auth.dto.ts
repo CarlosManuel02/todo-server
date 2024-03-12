@@ -1,12 +1,13 @@
 import {
+  IsDate,
   IsEmail,
   IsIn,
   IsInt,
   IsOptional,
   IsPositive,
   IsString,
-  MinLength,
-} from 'class-validator';
+  MinLength
+} from "class-validator";
 
 export class CreateAuthDto {
   @IsInt()
@@ -31,6 +32,10 @@ export class CreateAuthDto {
   @IsIn(['admin', 'user'])
   @IsOptional()
   role?: string;
+
+  @IsOptional()
+  @IsDate()
+  lastLogin?: Date;
 
   @IsString()
   @IsOptional()

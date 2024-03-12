@@ -17,7 +17,7 @@ import { CommonModule } from '../common/common.module';
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: '3h',
+        expiresIn: '7d'
       },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),

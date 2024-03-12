@@ -28,6 +28,11 @@ export class User {
   })
   role: string;
 
+  @Column('timestamp', {
+    nullable: true,
+  })
+  lastLogin: Date;
+
   @Column('varchar', {
     nullable: false,
   })
