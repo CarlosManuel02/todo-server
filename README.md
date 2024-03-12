@@ -1,8 +1,11 @@
+# ToDo Server
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
@@ -24,7 +27,8 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+this is a Backend for a ToDo app, it is built using NestJS, TypeORM, and Postgres. It counts with a user authentication
+system, and a CRUD for the ToDo items. It also has a Dockerfile and a docker-compose file to run the app in a container.
 
 ## Installation
 
@@ -58,16 +62,88 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## Support
+## User Authentication
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+The user authentication is done using JWT, the user can register and login, and the token is used to authenticate the
+user in the requests.
 
-## Stay in touch
+### Register
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+http://localhost:8080/api/auth/new
+```
 
-## License
+```json
+{
+    "username": "test",
+    "email": "test@example.com",
+    "password": "12345678"
+}
+```
 
-Nest is [MIT licensed](LICENSE).
+### Login
+
+```bash
+http://localhost:8080/api/auth/login
+```
+
+```json
+{
+    "username": "test",
+    "password": "12345678"
+}
+```
+
+### Get User Info
+
+```bash
+http://localhost:8080/api/auth/:term
+```
+This request needs the `term` in the endpoint, it can be the username or the email of the user.
+
+
+### Get all Users
+
+```bash
+http://localhost:8080/api/auth/all
+```
+
+
+### Update User
+
+```bash
+http://localhost:8080/api/auth/:id
+```
+
+```json
+{
+    "username": "test2"
+}
+```
+
+### Delete User
+
+```bash
+http://localhost:8080/api/auth/:id
+```
+
+## ToDo Items
+
+The ToDo items are managed using the following endpoints.
+
+### Create ToDo Item
+
+
+### Get all ToDo Items for a User
+
+
+### Get a ToDo Item
+
+
+### Update ToDo Item
+
+
+### Delete ToDo Item
+
+
+## Docker
