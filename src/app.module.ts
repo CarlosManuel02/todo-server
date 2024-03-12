@@ -7,6 +7,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
 import { AuthService } from './auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { TodosModule } from './todos/todos.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { JwtService } from '@nestjs/jwt';
       logging: false,
     }),
     CommonModule,
+    TodosModule,
   ],
   controllers: [],
   providers: [AuthService, JwtService],
