@@ -13,8 +13,9 @@ import { AuthService } from "./auth.service";
 import { CreateAuthDto } from "./dto/create-auth.dto";
 import { UpdateAuthDto } from "./dto/update-auth.dto";
 import { PaginationDto } from "../common/dtos/pagination.dto";
-import { ForgotPasswordDto } from "./dto/forgot-password.dto";
+import { RequestResetPasswordDto } from "./dto/request-reset-password.dto";
 import { AuthGuard } from "@nestjs/passport";
+import { ResetPasswordDto } from "./dto/reset-password.dto";
 
 @UseGuards(AuthGuard())
 @Controller("auth")
@@ -48,7 +49,7 @@ export class AuthController {
     return this.authService.renewToken(token);
   }
 
-  @Patch("/:id")
+  @Patch("/update/:id")
   update(@Param("id") id: string, @Body() updateAuthDto: UpdateAuthDto) {
     return this.authService.update(id, updateAuthDto);
   }
@@ -58,11 +59,17 @@ export class AuthController {
     return this.authService.remove(id);
   }
 
-  @Post("/account/:id")
+  @Patch("forgot-password")
   forgotPassword(
-    @Param("id") id: string,
-    @Body() forgotPasswordDto: ForgotPasswordDto
+    @Body() requestResetPasswordDto: RequestResetPasswordDto
   ) {
-    return this.authService.forgotPassword(id, forgotPasswordDto);
+    return this.authService.requestResetPassword(requestResetPasswordDto);
+  }
+
+  @Patch("reset-password")
+  resetPassword(
+    @Body() resetPasswordDto: ResetPasswordDto
+  ) {
+    return this.authService.resetPassword(resetPasswordDto);
   }
 }

@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { RequestResetPasswordDto } from './dto/request-reset-password.dto';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -124,7 +124,7 @@ describe('AuthService', () => {
   });
 
   it('should throw an error if incorrect current password when changing password', async () => {
-    const dto: ForgotPasswordDto = {
+    const dto: RequestResetPasswordDto = {
       email: 'test@test.com',
       password: 'wrong_password',
       newPassword: 'new_password',

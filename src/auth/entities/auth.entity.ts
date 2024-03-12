@@ -38,6 +38,16 @@ export class User {
   })
   salt: string;
 
+  @Column('varchar', {
+    nullable: true,
+  })
+  resetPasswordToken: string;
+
+  @Column('timestamp', {
+    nullable: true,
+  })
+  resetPasswordExpires: Date;
+
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);
     return hash === this.password;
