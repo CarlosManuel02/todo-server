@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { MailerModule } from './mailer/mailer.module';
 
-@Module({})
+@Module({
+  imports: [MailerModule],
+  exports: [MailerModule],
+})
 export class CommonModule {}

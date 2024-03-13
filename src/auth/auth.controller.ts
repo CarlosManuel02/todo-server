@@ -43,6 +43,7 @@ export class AuthController {
     return this.authService.findBy(term);
   }
 
+  @Post("/renew")
   getToken(@Req() req) {
     const token = req.headers.token;
     // console.log(token)
@@ -64,6 +65,11 @@ export class AuthController {
     @Body() requestResetPasswordDto: RequestResetPasswordDto
   ) {
     return this.authService.requestResetPassword(requestResetPasswordDto);
+  }
+
+  @Patch('verify-code')
+  verifyCode(@Body() token: RequestResetPasswordDto) {
+    return this.authService.verifyCode(token.code);
   }
 
   @Patch("reset-password")

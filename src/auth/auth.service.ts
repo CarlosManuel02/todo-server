@@ -207,7 +207,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    user.resetPasswordToken = uuidv4();
+    user.resetPasswordToken = this.genetareCode() ;
     user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
 
     await this.authRepository.save(user);
@@ -217,24 +217,37 @@ export class AuthService {
     return {
       status: 200
     };
-
-
   }
 
-  async resetPassword(resetPasswordDto: ResetPasswordDto) {
-
-    const { token, password } = resetPasswordDto;
-
-    const user = await this.findBy(token);
+  async verifyCode(token: string) {
+    const user = await this.authRepository.findOneBy({
+      resetPasswordToken: token
+    });
     if (!user) {
       throw new UnauthorizedException();
     }
-
     if (user.resetPasswordExpires < new Date()) {
       user.resetPasswordToken = null;
       user.resetPasswordExpires = null;
       await this.authRepository.save(user);
       throw new UnauthorizedException("Token expired");
+    }
+    return {
+      message: "Token verified",
+      status: 200
+    };
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+
+    const {id, password, code } = resetPasswordDto;
+
+    const user = await this.authRepository.findOneBy({
+      id,
+      resetPasswordToken: code
+    });
+    if (!user) {
+      throw new UnauthorizedException();
     }
 
     user.salt = await bcrypt.genSalt(10);
@@ -251,7 +264,13 @@ export class AuthService {
 
   private sendEmail(user: User, subjet: string) {
     //TODO: Implement email service
+    console.log(`CODE: ${user.resetPasswordToken}`);
 
+  }
+
+  private genetareCode() {
+    //code generator of 6 digits Ej: 1jk3h7
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
   }
 }
 
