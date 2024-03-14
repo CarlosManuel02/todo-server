@@ -30,9 +30,7 @@ export class AuthService {
 
     createAuthDto.role = "user";
 
-    const user = await this.authRepository.findOneBy({
-      email: createAuthDto.email
-    });
+    const user = await this.findBy(createAuthDto.email);
     if (user) {
       return {
         message: "The email is already in use"
@@ -87,26 +85,30 @@ export class AuthService {
 
   async findBy(term: string) {
     let user: User;
-    if (isUUID(term)) {
-      user = await this.authRepository.findOneBy([
-        {
-          id: term
-        },
-        {
-          resetPasswordToken: term
-        }
-      ]);
-    } else {
-      const queryBuilder = this.authRepository.createQueryBuilder("user");
-      user = await queryBuilder
-        .where("email = :email OR username = :username", {
-          email: term,
-          username: term
-        })
-        .getOne();
-    }
-    if (!user) {
-      throw new BadRequestException("User not found");
+    try{
+      if (isUUID(term)) {
+        user = await this.authRepository.findOneBy([
+          {
+            id: term
+          },
+          {
+            resetPasswordToken: term
+          }
+        ]);
+      } else {
+        const queryBuilder = this.authRepository.createQueryBuilder("user");
+        user = await queryBuilder
+          .where("email = :email OR username = :username", {
+            email: term,
+            username: term
+          })
+          .getOne();
+      }
+      if (!user) {
+        return null;
+      }
+    } catch (e) {
+      throw new BadRequestException("No user found with the given term");
     }
     return user;
   }

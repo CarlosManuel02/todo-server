@@ -26,7 +26,7 @@ import { TodosModule } from './todos/todos.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false,
+      synchronize: true,
       logging: false,
     }),
     CommonModule,
