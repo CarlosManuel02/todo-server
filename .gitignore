@@ -2,8 +2,7 @@
 /dist
 /node_modules
 .env
-/postgres
-yarn.lock
+/postgres-data
 
 # Logs
 logs
