@@ -269,7 +269,6 @@ export class AuthService {
   }
 
   private genetareCode() {
-    //code generator of 6 digits Ej: 1jk3h7
     return Math.random().toString(36).substring(2, 8).toUpperCase();
   }
 }

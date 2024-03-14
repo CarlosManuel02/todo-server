@@ -26,6 +26,6 @@ import { CommonModule } from '../common/common.module';
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule, AuthService, TypeOrmModule],
+  exports: [AuthService, JwtStrategy, PassportModule, TypeOrmModule],
 })
 export class AuthModule {}
