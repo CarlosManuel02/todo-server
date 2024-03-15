@@ -13,9 +13,9 @@ export class TodosController {
     return this.todosService.create(createTodoDto);
   }
 
-  @Get("/all")
-  findAll(@Query() pagination: PaginationDto) {
-    return this.todosService.findAll(pagination);
+  @Get("/all/:id")
+  findAll(@Param('id') id: string, @Query() pagination: PaginationDto) {
+    return this.todosService.findAll(id, pagination);
   }
 
   @Get(':id')

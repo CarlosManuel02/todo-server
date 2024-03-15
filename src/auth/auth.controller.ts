@@ -17,7 +17,6 @@ import { RequestResetPasswordDto } from "./dto/request-reset-password.dto";
 import { AuthGuard } from "@nestjs/passport";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 
-@UseGuards(AuthGuard())
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {
@@ -33,16 +32,19 @@ export class AuthController {
     return this.authService.login(createAuthDto);
   }
 
+  @UseGuards(AuthGuard())
   @Get("/all")
   findAll(@Query() pagination: PaginationDto) {
     return this.authService.findAll(pagination);
   }
 
+  @UseGuards(AuthGuard())
   @Get("/:term")
   findOne(@Param("term") term: string) {
     return this.authService.findBy(term);
   }
 
+  @UseGuards(AuthGuard())
   @Post("/renew")
   getToken(@Req() req) {
     const token = req.headers.token;
@@ -50,11 +52,13 @@ export class AuthController {
     return this.authService.renewToken(token);
   }
 
+  @UseGuards(AuthGuard())
   @Patch("/update/:id")
   update(@Param("id") id: string, @Body() updateAuthDto: UpdateAuthDto) {
     return this.authService.update(id, updateAuthDto);
   }
 
+  @UseGuards(AuthGuard())
   @Delete("/:id")
   remove(@Param("id") id: string) {
     return this.authService.remove(id);
