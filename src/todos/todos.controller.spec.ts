@@ -5,11 +5,16 @@ import { TodosService } from './todos.service';
 describe('TodosController', () => {
   let controller: TodosController;
 
+  const mockTodosService = {};
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [TodosController],
       providers: [TodosService],
-    }).compile();
+    })
+      .overrideProvider(TodosService)
+      .useValue(mockTodosService)
+      .compile();
 
     controller = module.get<TodosController>(TodosController);
   });
