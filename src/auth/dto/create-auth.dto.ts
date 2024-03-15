@@ -18,7 +18,7 @@ export class CreateAuthDto {
   @IsString()
   @MinLength(4)
   @IsOptional()
-  username: string;
+  username?: string;
 
   @IsString()
   @IsEmail()
