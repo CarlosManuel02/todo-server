@@ -25,7 +25,10 @@ export class TodosService {
 
     const user = await this.authService.findBy(createTodoDto.user_id);
     if (!user) {
-      throw new Error("User not found");
+      return {
+        message: "User not found",
+        status: 404
+      };
     }
 
     try {
@@ -41,9 +44,9 @@ export class TodosService {
 
   }
 
-  async findAll(pagiantion: PaginationDto) {
+  async findAll(id: string, pagiantion: PaginationDto) {
 
-    const { id, limit = 10, offset = 0 } = pagiantion;
+    const { limit = 10, offset = 0 } = pagiantion;
 
     return await this.todoRepository.findAndCount({
       where: { user_id: id },
@@ -57,24 +60,32 @@ export class TodosService {
 
     let todo: Todo;
 
-    if (isUUID(term)) {
-      todo = await this.todoRepository.findOneBy([
-        { id: term },
-        { user_id: term }
-      ]);
-    } else {
-      todo = await this.todoRepository.findOneBy({ title: term });
+    try {
+      if (isUUID(term)) {
+        todo = await this.todoRepository.findOneBy([
+          { id: term },
+          { user_id: term }
+        ]);
+      } else {
+        todo = await this.todoRepository.findOneBy({ title: term });
+      }
+
+      if (!todo) {
+        return {
+          message: "Todo not found",
+          status: 404
+        };
+      }
+      return {
+        todo,
+        status: 200
+      };
+    } catch (e) {
+      return {
+        message: e,
+        status: 500
+      };
     }
-
-    if (!todo) {
-      throw new Error("Todo not found");
-    }
-
-    return {
-      todo,
-      status: 200
-    };
-
 
   }
 

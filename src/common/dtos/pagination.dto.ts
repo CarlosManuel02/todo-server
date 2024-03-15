@@ -11,8 +11,4 @@ export class PaginationDto {
   @IsPositive()
   @Type(() => Number)
   offset: number;
-
-  @IsOptional()
-  @Type(() => String)
-  id?: string;
 }
