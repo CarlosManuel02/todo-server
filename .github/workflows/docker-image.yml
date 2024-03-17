@@ -17,4 +17,4 @@ jobs:
         run: |
           docker login --username ${{ secrets.GH_US }} --password ${{ secrets.GH_PAT }} ghcr.io
           docker build . --tag ghcr.io/$GITHUB_REPOSITORY_NAME:$GITHUB_SHA:latest
-          docker push ghcr.io/$GITHUB_REPOSITORY_NAME:$GITHUB_SHA:latest
+          docker push ghcr.io/carlosmanuel02/todo-server-ghcr:lastest
